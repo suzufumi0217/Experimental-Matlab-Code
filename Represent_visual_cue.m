@@ -108,7 +108,8 @@ try
               Screen('Flip', windowPtr);
               configureCallback(arduinoObj,"terminator",@readL_State);
               writeline(arduinoObj,"l");
-              WaitNsec(max_step_duration); %追加
+              WaitNsec(max_step_duration + 1); %追加
+              disp("Press right button!")
           end
           
           if keyCode(RightArrowKey)
@@ -117,7 +118,8 @@ try
               Screen('Flip', windowPtr);
               configureCallback(arduinoObj,"terminator",@readR_State);
               writeline(arduinoObj,"r");
-              WaitNsec(max_step_duration); %追加             
+              WaitNsec(max_step_duration + 1); %追加
+              disp("Press left button!")
           end
           
           if keyCode(KbName_E)

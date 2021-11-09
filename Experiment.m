@@ -60,6 +60,7 @@ threshold.L_max = peaks.L;
 threshold.FS = 0.7;
 
 %plotting
+calib_f = figure;
 subplot(4,1,1)
 plot(fh_time,fh_right_w_hip)
 hold on 
@@ -106,11 +107,12 @@ plot(sh_time,sh_left_FS)
 xlabel("Left-foot")
 
 %データの保存
-trialdate = "1102";
+trialdate = "1109";
 prompt = 'What is the trial time? >> ';
 calib_trialtime = input(prompt,'s');
 filename = strcat("calibration_", trialdate,"_", calib_trialtime);
 save(filename);
+close all
 
 disp('    R_max,    L_max,     FS')
 disp([threshold.R_max,threshold.L_max,threshold.FS])
