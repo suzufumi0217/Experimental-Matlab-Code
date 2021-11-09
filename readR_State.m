@@ -37,7 +37,7 @@ if(length(DetectionData) == 4)
     w_hip = str2double(W_HIP);
     
     %Disp State
-    disp(state)
+    disp([time,state])
     
     %データをarduino構造体のなかのDetectDataにしまう．
     src.UserData.Time(end+1) = time;
