@@ -20,10 +20,10 @@ readNline(arduinoObj,11)% read text from ARDUINO
 %send c
 writeline(arduinoObj,"c");
 
-writeline(arduinoObj, num2str(calib_steps));
-writeline(arduinoObj, num2str(max_step_duration));
+strC_params = strcat(num2str(calib_steps),",",num2str(max_step_duration));
+writeline(arduinoObj, strC_params);
 
-readNline(arduinoObj,2)% start calibration
+readNline(arduinoObj,1)% start calibration
 
 %コールバック関数を設定している
 configureCallback(arduinoObj,"terminator",@readRL_IMUData);

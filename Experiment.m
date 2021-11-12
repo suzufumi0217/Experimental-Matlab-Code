@@ -22,12 +22,19 @@ ARDUINO.UserData = struct("Time",[],"Right_w_hip",[],"Left_w_hip",[],"R_FS",[],"
 %% Calibration
 
 %parameterを設定する
-calibration_time = 5;%(sec)
+max_step_duration = 3; %Mesuring duration at each step 
+course_steps = 5;%(sec) コースを何歩で完了するか
+course_repeat = 3;%(times) コースを何回試行するか
+calibration_steps = course_steps * course_repeat;
+disp(["all calibration_steps is",calibration_steps])
 
-%calibrationのためのデータをArduinoから取得する．
-CalibrationArduino(ARDUINO,calibration_time);
-%ARDUINOがデータを取得するのを待つ時間
-pause(calibration_time);
+%Initiate calibration
+InitiateCalibration(ARDUINO,calibration_steps,max_step_duration);
+
+%Start Calibration(Visual Cue and collecting Data)
+Calibration_visual_cue(ARDUINO,calibration_steps,);
+
+%After collecting Data from Arduino
 configureCallback(ARDUINO, "off");
 
 F = figure('Name','Next offlinedetection & plotting');
