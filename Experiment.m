@@ -1,6 +1,12 @@
 close all
 clear all
 
+global C_time
+global C_R_FS
+global C_R_w_hip
+global C_L_FS
+global C_L_w_hip
+
 global D_time
 global D_R_state
 global D_L_state
@@ -17,48 +23,31 @@ ARDUINOPORT_number = 5;
 strPORT = strcat('COM',num2str(ARDUINOPORT_number));
 ARDUINO = serialport(strPORT,115200);
 configureTerminator(ARDUINO,"CR");
-ARDUINO.UserData = struct("Time",[],"Right_w_hip",[],"Left_w_hip",[],"R_FS",[],"L_FS",[]);
+ARDUINO.UserData = struct("Time",[],"FS",[],"w_hip",[]);
 
 %% Calibration
 
 %parameterを設定する
-max_step_duration = 3; %Mesuring duration at each step 
-course_steps = 5;%(sec) コースを何歩で完了するか
+max_step_duration = 2; %Mesuring duration at each step 
+course_steps = 6;%(sec) コースを何歩で完了するか
 course_repeat = 3;%(times) コースを何回試行するか
+rest_time = 5; %(s) 一歩ごとの間の時間
 calibration_steps = course_steps * course_repeat;
-disp(["all calibration_steps is",calibration_steps])
+disp(["all calibration_steps is",num2str(calibration_steps)])
 
 %Initiate calibration
 InitiateCalibration(ARDUINO,calibration_steps,max_step_duration);
 
 %Start Calibration(Visual Cue and collecting Data)
-Calibration_visual_cue(ARDUINO,calibration_steps,);
+Calibration_visual_cue(ARDUINO,max_step_duration,course_steps,course_repeat,rest_time);
 
 %After collecting Data from Arduino
 configureCallback(ARDUINO, "off");
 
-F = figure('Name','Next offlinedetection & plotting');
+ F = figure('Name','Next offlinedetection & plotting');
 w = waitforbuttonpress;
 close(F)
 
-%データを代入する．
-C_TIME = ARDUINO.UserData.Time;
-C_R_w_hip = ARDUINO.UserData.Right_w_hip;
-C_L_w_hip = ARDUINO.UserData.Left_w_hip;
-C_R_FS = ARDUINO.UserData.R_FS;
-C_L_FS = ARDUINO.UserData.L_FS;
-
-%データを前半後半に分割する →　関数で書きたい
-fh_right_w_hip = C_R_w_hip(1: floor(length(C_R_w_hip) / 2));
-sh_right_w_hip = C_R_w_hip( floor(length(C_R_w_hip) / 2) + 1: end);
-fh_left_w_hip = C_L_w_hip(1: floor(length(C_L_w_hip) / 2));
-sh_left_w_hip = C_L_w_hip( floor(length(C_L_w_hip) / 2) + 1: end);
-fh_time = C_TIME(1: floor(length(C_TIME) / 2));
-sh_time = C_TIME( floor(length(C_TIME) / 2) + 1: end);
-fh_right_FS = C_R_FS(1: floor(length(C_R_FS) / 2));
-sh_right_FS = C_R_FS( floor(length(C_R_FS) / 2) + 1: end);
-fh_left_FS = C_L_FS(1: floor(length(C_L_FS) / 2));
-sh_left_FS = C_L_FS( floor(length(C_L_FS) / 2) + 1: end);
 
 %make thresholds
 [peaks] = calibration(fh_right_w_hip, fh_left_w_hip, fh_time);
@@ -146,7 +135,7 @@ max_step_duration = 3;
 InitiateDetection(ARDUINO,30,30,1,detection_steps,max_step_duration);
 
 %Motor Imagery
-Represent_visual_cue(ARDUINO,detection_steps,max_step_duration);
+Detection_visual_cue(ARDUINO,detection_steps,max_step_duration);
 
 F = figure('Name','Save DetectData?');
 w = waitforbuttonpress;
