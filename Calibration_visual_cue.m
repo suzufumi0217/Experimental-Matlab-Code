@@ -29,13 +29,13 @@ try
    
 
     % 必要に応じてカーソルを消してください
-    %HideCursor;
+    HideCursor;
     
     %Screen Number
     screenNumber = max(Screen('Screens'));
     
     %画面全体でのvisual cueの表示
-    [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, bgColor);
+    [mainWindow, windowRect] = Screen('OpenWindow', 1, bgColor);
     % ウィンドウでの呈示（デバッグ用）
 %     [windowPtr, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
     
@@ -148,9 +148,6 @@ SpaceTwice;
     Screen('DrawText', mainWindow, 'Done', centerX-140, centerY-65, white);
     Screen('Flip', mainWindow);
     WaitSecs(3.0);
-    
-    %何かキーが押されたら次のステップに進むようにする．
-%     KbWait([], 2);
     
     sca;
     ListenChar(0);

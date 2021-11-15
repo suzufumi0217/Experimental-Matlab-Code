@@ -29,9 +29,9 @@ ARDUINO.UserData = struct("Time",[],"FS",[],"w_hip",[]);
 
 %parameterを設定する
 max_step_duration = 2; %Mesuring duration at each step 
-course_steps = 6;%(sec) コースを何歩で完了するか
-course_repeat = 3;%(times) コースを何回試行するか
-rest_time = 5; %(s) 一歩ごとの間の時間
+course_steps = 4;%(sec) コースを何歩で完了するか
+course_repeat = 2;%(times) コースを何回試行するか
+rest_time = 2; %(s) 一歩ごとの間の時間
 calibration_steps = course_steps * course_repeat;
 disp(["all calibration_steps is",num2str(calibration_steps)])
 
@@ -44,66 +44,39 @@ Calibration_visual_cue(ARDUINO,max_step_duration,course_steps,course_repeat,rest
 %After collecting Data from Arduino
 configureCallback(ARDUINO, "off");
 
- F = figure('Name','Next offlinedetection & plotting');
+F = figure('Name','Next offlinedetection & plotting');
 w = waitforbuttonpress;
 close(F)
 
-
 %make thresholds
-[peaks] = calibration(fh_right_w_hip, fh_left_w_hip, fh_time);
-threshold.R_max = peaks.R;
-threshold.L_max = peaks.L;
-threshold.FS = 0.7;
+Max_R_w_hip = calibration(C_R_w_hip);
+Max_L_w_hip = calibration(C_L_w_hip);
+threshold.R_max = Max_R_w_hip;
+threshold.L_max = Max_L_w_hip;
+threshold.FS = 1;
 
 %plotting
 calib_f = figure;
-subplot(4,1,1)
-plot(fh_time,fh_right_w_hip)
-hold on 
-yyaxis right
-plot(fh_time,fh_right_FS)
-xlabel("Right-Foot")
-
-subplot(4,1,2)
-plot(fh_time,fh_left_w_hip)
-hold on 
-yyaxis right
-plot(fh_time,fh_left_FS)
-xlabel("Left-foot")
-
-%% Offline Detection
-[state] = offlineDetection_BothLegs(sh_time, sh_right_w_hip, sh_right_FS, sh_left_w_hip, sh_left_FS, threshold);
-
-%plotting
-subplot(4,1,3)
-plot(sh_time,sh_right_w_hip)
-hold on 
-yline(threshold.R_max)
-% hold on
-% yline(0)
-hold on 
-yyaxis right
-plot(sh_time,state.R)
+subplot(2,1,1)
+plot(C_time{1,1},C_R_w_hip{4,1})
 hold on
-plot(sh_time,sh_right_FS)
+yline(threshold.R_max)
+hold on
+yyaxis right
+plot(C_time{1,1},C_R_FS{1,1})
 xlabel("Right-Foot")
 
-
-subplot(4,1,4)
-plot(sh_time,sh_left_w_hip)
+subplot(2,1,2)
+plot(C_time{1,2},C_L_w_hip{4,1})
 hold on 
 yline(threshold.L_max)
-% hold on
-% yline(0)
-hold on 
-yyaxis right
-plot(sh_time,state.L)
 hold on
-plot(sh_time,sh_left_FS)
+yyaxis right
+plot(C_time{1,2},C_L_FS{1,1})
 xlabel("Left-foot")
 
 %データの保存
-trialdate = "1109";
+trialdate = date;
 prompt = 'What is the trial time? >> ';
 calib_trialtime = input(prompt,'s');
 filename = strcat("calibration_", trialdate,"_", calib_trialtime);
