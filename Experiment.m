@@ -28,10 +28,10 @@ ARDUINO.UserData = struct("Time",[],"FS",[],"w_hip",[]);
 %% Calibration
 
 %parameterを設定する
-max_step_duration = 2; %Mesuring duration at each step 
-course_steps = 4;%(sec) コースを何歩で完了するか
-course_repeat = 2;%(times) コースを何回試行するか
-rest_time = 2; %(s) 一歩ごとの間の時間
+max_step_duration = 3; %Mesuring duration at each step 
+course_steps = 2;%(sec) コースを何歩で完了するか
+course_repeat = 1;%(times) コースを何回試行するか
+rest_time = 3; %(s) 一歩ごとの間の時間
 calibration_steps = course_steps * course_repeat;
 disp(["all calibration_steps is",num2str(calibration_steps)])
 
@@ -44,9 +44,11 @@ Calibration_visual_cue(ARDUINO,max_step_duration,course_steps,course_repeat,rest
 %After collecting Data from Arduino
 configureCallback(ARDUINO, "off");
 
-F = figure('Name','Next offlinedetection & plotting');
-w = waitforbuttonpress;
-close(F)
+% F1 = figure('Name','Next offlinedetection & plotting');
+disp("Please type Spece twice to plot and save calib_data")
+ListenChar(2);
+SpaceTwice;
+% close(F1)
 
 %make thresholds
 Max_R_w_hip = calibration(C_R_w_hip);
@@ -58,7 +60,7 @@ threshold.FS = 1;
 %plotting
 calib_f = figure;
 subplot(2,1,1)
-plot(C_time{1,1},C_R_w_hip{4,1})
+plot(C_time{1,1},C_R_w_hip{1,1})
 hold on
 yline(threshold.R_max)
 hold on
@@ -67,7 +69,7 @@ plot(C_time{1,1},C_R_FS{1,1})
 xlabel("Right-Foot")
 
 subplot(2,1,2)
-plot(C_time{1,2},C_L_w_hip{4,1})
+plot(C_time{1,2},C_L_w_hip{1,1})
 hold on 
 yline(threshold.L_max)
 hold on
@@ -75,6 +77,8 @@ yyaxis right
 plot(C_time{1,2},C_L_FS{1,1})
 xlabel("Left-foot")
 
+%Matlabへの書き込みを有効にする
+ListenChar(0);
 %データの保存
 trialdate = date;
 prompt = 'What is the trial time? >> ';
@@ -95,25 +99,32 @@ disp([threshold.R_max,threshold.L_max,threshold.FS])
 % FESPORT_number = 6;
 % ConnectFES(FESPORT_number);
 
-F = figure('Name','Start online detection?');
-w = waitforbuttonpress;
-close(F)
+disp("Please type Spece twice to start Detection")
+ListenChar(2);
+SpaceTwice;
 
-ARDUINO.UserData = struct("Time",[],"R_State",[],"L_State",[],"Right_w_hip",[],"Left_w_hip",[],"R_FS",[],"L_FS",[]);
+ARDUINO.UserData = struct("Time",[],"State",[],"FS",[],"w_hip",[]);
 %% Detection
 %Sending D_params
-detection_steps = 15;
-max_step_duration = 3;
-% InitiateDetection(ARDUINO,threshold.R_max,threshold.L_max,threshold.FS,detection_steps,max_step_duration);
-InitiateDetection(ARDUINO,30,30,1,detection_steps,max_step_duration);
+max_step_duration = 5;
+D_course_steps = 5;
+D_course_repeat = 1;
+detection_steps = D_course_steps * D_course_repeat;
+rest_time = 3; %(s) 一歩ごとの間の時間
+disp(["all detection_steps is",num2str(detection_steps)])
+
+InitiateDetection(ARDUINO,threshold.R_max,threshold.L_max,threshold.FS,detection_steps,max_step_duration);
+%For debugging
+% InitiateDetection(ARDUINO,30,30,1,detection_steps,max_step_duration);
 
 %Motor Imagery
-Detection_visual_cue(ARDUINO,detection_steps,max_step_duration);
+Detection_visual_cue(ARDUINO,max_step_duration,D_course_steps,D_course_repeat,rest_time);
 
-F = figure('Name','Save DetectData?');
-w = waitforbuttonpress;
-close(F)
+% F = figure('Name','Save DetectData?');
+% w = waitforbuttonpress;
+% close(F)
 
+ListenChar(0);
 %Saving Detection Data
 prompt = 'What is the trial number? >> ';
 detect_trialtime = input(prompt,'s');

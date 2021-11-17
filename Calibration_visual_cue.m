@@ -35,7 +35,7 @@ try
     screenNumber = max(Screen('Screens'));
     
     %画面全体でのvisual cueの表示
-    [mainWindow, windowRect] = Screen('OpenWindow', 1, bgColor);
+    [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, bgColor);
     % ウィンドウでの呈示（デバッグ用）
 %     [windowPtr, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
     
@@ -76,10 +76,6 @@ try
     isRight = 1;
     isLeft = 0;
     n_gait = 0;
-    
-%     F = figure('Name','Push button! To Proceed!');
-%     w = waitforbuttonpress;
-%     close(F)
 
 % Present the waiting screen
 Screen('DrawText', mainWindow, 'Please press the Space Key twice to proceed.', centerX-210, centerY+50, white);
@@ -150,6 +146,7 @@ SpaceTwice;
     WaitSecs(3.0);
     
     sca;
+    ShowCursor;
     ListenChar(0);
 catch
     sca;
