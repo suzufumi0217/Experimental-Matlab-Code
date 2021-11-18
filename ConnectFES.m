@@ -9,7 +9,6 @@ strPORT = strcat('COM',num2str(PORT));
 motionstim8 = connectMotionstim(strPORT);
 
 % Initialize stimulation settings
-% info.AllChannels = [1 2 3 4 5 6 7 8]; % List of all channels that will be used for stim
 info.AllChannels = [1 2 3 4 5 6 7 8]; % List of all channels that will be used for stim
 info.lowFreqChannels = []; % Channels to use low stimulation on - currently not being used
 info.PulseWidth = 200; % in microseconds

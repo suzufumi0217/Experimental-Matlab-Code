@@ -1,4 +1,5 @@
-function SendChangeSignal(motionstim8, info, mainleg, state)
+function info = SendChangeSignal(motionstim8, info, mainleg, state)
+
 % Triggers stimulation for a given state and given leg.
 % motionstim8: serial port object
 % info: structure containing settings for stimulation 

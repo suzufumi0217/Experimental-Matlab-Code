@@ -12,6 +12,8 @@ global isRight
 global isLeft
 global n_gait %number of one gait cycle
 
+global currentState
+
 D_time = {};
 D_R_state = {};
 D_L_state = {};
@@ -107,6 +109,7 @@ try
         while course_steps < end_steps
             n_gait = n_gait + 1;
             if isRight
+                currentState = 0;
                 course_steps = course_steps + 1;
                 Screen('DrawTexture', mainWindow, Right_imagetex,[],[0,0,width,height]);
                 Screen('Flip', mainWindow);
@@ -121,6 +124,7 @@ try
             end
             
             if isLeft
+                currentState = 0;
                 course_steps = course_steps + 1;
                 Screen('DrawTexture', mainWindow, Left_imagetex,[],[0,0,width,height]);
                 Screen('Flip', mainWindow);

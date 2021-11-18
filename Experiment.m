@@ -1,6 +1,8 @@
 close all
 clear all
 
+global motionstim8
+
 global C_time
 global C_R_FS
 global C_R_w_hip
@@ -25,13 +27,18 @@ ARDUINO = serialport(strPORT,115200);
 configureTerminator(ARDUINO,"CR");
 ARDUINO.UserData = struct("Time",[],"FS",[],"w_hip",[]);
 
+%% Connect FES
+
+FESPORT_number = 6;
+ConnectFES(FESPORT_number);
+
 %% Calibration
 
 %parameterを設定する
-max_step_duration = 3; %Mesuring duration at each step 
-course_steps = 2;%(sec) コースを何歩で完了するか
-course_repeat = 1;%(times) コースを何回試行するか
-rest_time = 3; %(s) 一歩ごとの間の時間
+max_step_duration = 5; %Mesuring duration at each step 
+course_steps = 4;%(sec) コースを何歩で完了するか
+course_repeat = 2;%(times) コースを何回試行するか
+rest_time = 5; %(s) 一歩ごとの間の時間
 calibration_steps = course_steps * course_repeat;
 disp(["all calibration_steps is",num2str(calibration_steps)])
 
@@ -89,15 +96,6 @@ close all
 
 disp('    R_max,    L_max,     FS')
 disp([threshold.R_max,threshold.L_max,threshold.FS])
-%% Connect FES(このテストではやらない)
-
-% global motionstim8
-% global info
-% global currentState
-% global previousState
-
-% FESPORT_number = 6;
-% ConnectFES(FESPORT_number);
 
 disp("Please type Spece twice to start Detection")
 ListenChar(2);
@@ -107,10 +105,10 @@ ARDUINO.UserData = struct("Time",[],"State",[],"FS",[],"w_hip",[]);
 %% Detection
 %Sending D_params
 max_step_duration = 5;
-D_course_steps = 5;
-D_course_repeat = 1;
+D_course_steps = 4;
+D_course_repeat = 2;
 detection_steps = D_course_steps * D_course_repeat;
-rest_time = 3; %(s) 一歩ごとの間の時間
+rest_time = 5; %(s) 一歩ごとの間の時間
 disp(["all detection_steps is",num2str(detection_steps)])
 
 InitiateDetection(ARDUINO,threshold.R_max,threshold.L_max,threshold.FS,detection_steps,max_step_duration);
@@ -142,7 +140,7 @@ close all
 % Update_Dparam(ARDUINO,threshold.R_max,threshold.L_max,threshold.FS,detection_steps,max_step_duration);
 
 %% Disconnect FES & ARDUINO
-% fwrite(motionstim8, sscanf(ExitChannelListMode,'%2x')', 'uint8');
-% disconnectMotionstim(motionstim8);
+fwrite(motionstim8, sscanf(ExitChannelListMode,'%2x')', 'uint8');
+disconnectMotionstim(motionstim8);
 %いらんかなこれ正味↓
 DisconnectArduino(ARDUINO);
