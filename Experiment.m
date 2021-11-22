@@ -130,17 +130,8 @@ filename = strcat("detection_", trialdate,"_", detect_trialtime);
 save(filename);
 
 close all
-%% Update D_params and start detection
-% threshold.R_max = peaks.R;
-% threshold.L_max = peaks.L;
-% threshold.FS = 2;
-% detection_steps = 10;
-% max_step_duration = 5;
-% 
-% Update_Dparam(ARDUINO,threshold.R_max,threshold.L_max,threshold.FS,detection_steps,max_step_duration);
 
 %% Disconnect FES & ARDUINO
 fwrite(motionstim8, sscanf(ExitChannelListMode,'%2x')', 'uint8');
 disconnectMotionstim(motionstim8);
-%いらんかなこれ正味↓
-DisconnectArduino(ARDUINO);
+
