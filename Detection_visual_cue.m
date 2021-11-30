@@ -24,7 +24,7 @@ D_L_FS = {};
 
 %スペックの低いパソコンでPTBを動かそうとするとSYNCHRONIZATION FAILURE!
 %が表示されるがこのおまじないを書いとけば，実験の時間精度は落ちるがとりあえず動く．
-Screen('Preference', 'SkipSyncTests', 0);
+Screen('Preference', 'SkipSyncTests', 1);
 % Right_arrowとLeft_arrowの画像提示を行う．
 % escapeキーが押されたら終わる．
 KbName('UnifyKeyNames');
