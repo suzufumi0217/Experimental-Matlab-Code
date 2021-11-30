@@ -6,7 +6,7 @@ strD_param = strcat(num2str(threshold_R),",",num2str(threshold_L),",",num2str(th
 %send thresholds to Arduino
 writeline(arduinoObj,strD_param);
 
-readNline(arduinoObj,4)  %"Complete Recieving D_params"
+readNline(arduinoObj,3)  %"Complete Recieving D_params"
                          %  
                          %"start detection"
 
