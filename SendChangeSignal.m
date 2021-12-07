@@ -28,18 +28,22 @@ elseif mainleg == 2
 end
 
 % identify which channels are to be turned on/off
-if state == 3 % Swing back
+if state == 2 % Push Off
     on = sort([channelList.(mainlegStr).SO channelList.(sublegStr).BF channelList.(sublegStr).VM  channelList.(sublegStr).TA]);
     off = sort([channelList.(mainlegStr).BF channelList.(mainlegStr).VM channelList.(mainlegStr).TA channelList.(sublegStr).SO]);
-    
-elseif state == 4 % Push off
+
+elseif state == 3 %Pre-swing   
+    on = sort([channelList.(sublegStr).BF channelList.(sublegStr).VM  channelList.(sublegStr).TA]);
+    off = sort([channelList.(mainlegStr).BF channelList.(mainlegStr).VM channelList.(mainlegStr).TA channelList.(mainlegStr).SO channelList.(sublegStr).SO]);
+
+elseif state == 4 % Toe up
     on = sort([channelList.(mainlegStr).TA channelList.(sublegStr).SO]);
     off = sort([channelList.(mainlegStr).BF channelList.(mainlegStr).VM channelList.(mainlegStr).SO channelList.(sublegStr).BF channelList.(sublegStr).VM channelList.(sublegStr).TA]);
 
-elseif state == 1 % no stimulation
+elseif state == 1 %Swing Back
     on = ([channelList.(mainlegStr).BF channelList.(mainlegStr).VM channelList.(mainlegStr).TA channelList.(sublegStr).SO]);
     off = sort([channelList.(mainlegStr).SO channelList.(sublegStr).BF channelList.(sublegStr).VM channelList.(sublegStr).TA]);
-else 
+else % no stimulation
     on = ([]);
     off = ([channelList.(mainlegStr).BF channelList.(mainlegStr).VM channelList.(mainlegStr).TA channelList.(mainlegStr).SO channelList.(sublegStr).SO channelList.(sublegStr).BF channelList.(sublegStr).VM channelList.(sublegStr).TA]);
 end
