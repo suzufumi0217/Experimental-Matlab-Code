@@ -49,10 +49,11 @@ try
     [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, 0);
     [width, height] = Screen('WindowSize', screenNumber);
     
+    % ウィンドウでの呈示（デバッグ用）
+%     [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
+    
     %画面の中央の座標
     [centerX centerY] = RectCenter(windowRect);
-    % ウィンドウでの呈示（デバッグ用）
-    %   [windowPtr, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
     
     %実験プログラムを保存しているフォルダ内にrabbit.jpgを準備してください。
     Left_imgfile = 'Left_arrow.bmp';

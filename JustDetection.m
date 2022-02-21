@@ -4,7 +4,7 @@
 %If you want to update D_params, please erase comment out.
 
 %% Connect Arduino
-ARDUINOPORT_number = 5;
+ARDUINOPORT_number = 3;
 strPORT = strcat('COM',num2str(ARDUINOPORT_number));
 ARDUINO = serialport(strPORT,115200);
 configureTerminator(ARDUINO,"CR");
@@ -21,6 +21,10 @@ readNline(ARDUINO,11)% read text from ARDUINO
 % All is well.
 % blank
 % Configuration complete!
+%% Connect FES
+
+FESPORT_number = 3;
+ConnectFES(FESPORT_number);
 %% Update D_params and start detection
 % threshold.FS = 1;
 % D_course_steps = 4;

@@ -37,7 +37,7 @@ try
     %画面全体でのvisual cueの表示
     [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, bgColor);
     % ウィンドウでの呈示（デバッグ用）
-%     [windowPtr, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
+%     [mainWindow, windowRect] = Screen('OpenWindow', screenNumber, 0, [100, 200, 700, 600]);
     
     [width, height] = Screen('WindowSize', screenNumber);
     
