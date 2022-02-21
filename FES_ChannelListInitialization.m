@@ -1,4 +1,4 @@
-function hexCode = ChannelListInitialization(ts1, ts2, Channel_Stim, Channel_Lf, N_factor)
+function hexCode = FES_ChannelListInitialization(ts1, ts2, Channel_Stim, Channel_Lf, N_factor)
 % Used to initialize frequencies for each channel and pulse timings
 % 
 % ts1: the stimulator will generate cyclically stimulation bursts with the 

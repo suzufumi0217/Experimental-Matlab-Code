@@ -1,4 +1,4 @@
-function hexCode = ExitChannelListMode
+function hexCode = FES_ExitChannelListMode
 % Converts the standard binary command for exiting channel list mode into a
 % hex code.
 % Written by Heather Williams August 2019

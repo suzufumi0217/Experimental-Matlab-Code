@@ -25,8 +25,5 @@ writeline(arduinoObj, strC_params);
 
 readNline(arduinoObj,1)% start calibration
 
-%コールバック関数を設定している
-configureCallback(arduinoObj,"terminator",@readRL_IMUData);
-
 end
 

@@ -1,4 +1,4 @@
-function info = InitializeAmplitude(motionstim8, info)
+function info = FES_InitializeAmplitude(motionstim8, info)
 % Goes through each channel, saves last number as the amplitude, switches
 % channel by entering any non-number string or just hitting enter. 
 % motionstim8: serial port object
@@ -15,7 +15,7 @@ for i = 1:length(info.AllChannels) % loop through each channel
     
     % Initialize ScienceMode
     tempAmpl = 0;
-    hexcode = ChannelListInitialization(info.ts1, info.ts2, info.AllChannels(i), info.lowFreqChannels, info.N);
+    hexcode = FES_ChannelListInitialization(info.ts1, info.ts2, info.AllChannels(i), info.lowFreqChannels, info.N);
     fwrite(motionstim8, sscanf(hexcode,'%2x')', 'uint8')
     
     % Asks for an amplitude to be entered in the command window. This
@@ -28,11 +28,11 @@ for i = 1:length(info.AllChannels) % loop through each channel
         if ~isnan(tempAmpl)
             info.maxAmplitudes(i) = tempAmpl;
             %FESに入力されたamplitudeを書き込んでいる
-            fwrite(motionstim8, sscanf(ChannelListUpdate(info.PulseWidth, tempAmpl, info.Mode),'%2x')', 'uint8')
+            fwrite(motionstim8, sscanf(FES_ChannelListUpdate(info.PulseWidth, tempAmpl, info.Mode),'%2x')', 'uint8')
         end
     end
     
     % Exit channel mode so that the settings can be reset for the next
     % channel
-    fwrite(motionstim8, sscanf(ExitChannelListMode,'%2x')', 'uint8')
+    fwrite(motionstim8, sscanf(FES_ExitChannelListMode,'%2x')', 'uint8')
 end
